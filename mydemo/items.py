@@ -16,3 +16,11 @@ class DoubanItem(scrapy.Item):
     title = scrapy.Field()
     score = scrapy.Field()
     motto = scrapy.Field()
+
+
+class PixivItem(scrapy.Item):
+    title = scrapy.Field()
+    user_name = scrapy.Field()
+    p_id = scrapy.Field()
+    re_url = scrapy.Field()
+

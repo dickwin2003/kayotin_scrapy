@@ -64,7 +64,8 @@ DOWNLOAD_DELAY = 3
 # 配置数据管道
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "mydemo.pipelines.DoubanItemPipeline": 300,
+    "mydemo.pipelines.DoubanItemPipeline": 300,
+    "mydemo.pipelines.PixivPipeline": 400
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

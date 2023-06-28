@@ -13,7 +13,7 @@ from itemadapter import ItemAdapter
 #         return item
 
 import openpyxl
-from mydemo.items import DoubanItem, PixivItem
+from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem
 import os
 
 
@@ -52,3 +52,29 @@ class PixivPipeline:
         root_path = os.path.abspath(os.path.dirname(__file__))
         self.wb.save(f'{root_path}/output/pixiv_weekly_rank数据.xlsx')
 
+
+class PixivDownloadPipeline:
+    images_folder = 'path/to/your/images/folder'
+
+    def process_item(self, item, spider):
+        # 检查Item是否包含图片URL
+        if 'image_urls' in item and len(item['image_urls']) > 0:
+            for image_url in item['image_urls']:
+                # 生成下载请求，并指定回调函数
+                request = scrapy.Request(image_url, callback=self.handle_downloaded_image)
+                request.meta['item'] = item
+                spider.crawler.engine.schedule(request, spider)
+        else:
+            raise DropItem("Item does not contain image URLs")
+        return item
+
+    def handle_downloaded_image(self, response):
+        # 在这里处理下载后的图片，例如保存到本地
+        item = response.meta['item']
+        image_path = os.path.join(self.images_folder, item['name'] + '.jpg')
+
+        with open(image_path, 'wb') as f:
+            f.write(response.body)
+
+        # 如果需要，可以将下载后的图片路径添加到Item中
+        item['image_path'] = image_path

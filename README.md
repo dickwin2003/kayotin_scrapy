@@ -18,3 +18,14 @@ scrapy crawl pixiv
 ```
 效果：
 爬取Pixiv 周榜 250 标题、作者和PID和链接，保存至Excel文件
+
+
+```python
+scrapy crawl pixiv_download
+```
+效果：
+
+1. 根据上一步的数据，下载图片
+2. 多p的图片保存至一个文件夹，如下所示
+
+![pic_dic.png](mydemo%2Fstatic%2Fpic_dic.png)

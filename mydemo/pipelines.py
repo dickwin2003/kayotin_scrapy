@@ -59,14 +59,16 @@ class PixivDownloadPipeline:
         self.root_path = os.path.abspath(os.path.dirname(__file__))
 
     def process_item(self, item: PixivDownloadItem, spider):
-        file_name = f"{item['title']}.{item['file_type']}"
+        """对item进行处理，如果是多p就新建文件夹放进去"""
         if item["is_many"]:
             save_path = f"{self.root_path}/output/{item['folder_name']}/"
         else:
             save_path = f"{self.root_path}/output/"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        resp = requests.get(item["final_url"], headers=item["headers"])
-        with open(f"{save_path}{file_name}", 'wb') as file:
-            file.write(resp.content)
+        for img in item["final_urls"]:
+            file_name = f"{img['title']}.{img['file_type']}"
+            resp = requests.get(img["url"], headers=item["headers"])
+            with open(f"{save_path}{file_name}", 'wb') as file:
+                file.write(resp.content)
         return item

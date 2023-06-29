@@ -49,7 +49,6 @@ class PixivDownloadSpider(scrapy.Spider):
                           meta={"headers": header, "pic_name": url_obj["pic_name"]})
 
     def parse(self, response, **kwargs):
-        print("进入parse处理请求")
         datas = response.json()["body"]
         headers = response.meta["headers"]
         pic_name = response.meta["pic_name"]
@@ -57,20 +56,24 @@ class PixivDownloadSpider(scrapy.Spider):
         index = 1
         if len(datas) > 1:
             is_many = True
+        item = {
+            "folder_name": "",
+            "is_many": is_many,
+            "headers": headers,
+            "final_urls": [
+                # {"title": pic_name, "url": "", "file_type": ""} 结构参考
+            ]
+        }
         for data in datas:
-            if is_many:
-                folder_name = pic_name
-                pic_name = f"p{index}"
-            else:
-                folder_name = ""
-            final_url = data["urls"]["original"]
-            item = {
+            img_p = {
                 "title": pic_name,
-                "file_type": final_url.split(".")[-1],
-                "folder_name": folder_name,
-                "is_many": is_many,
-                "headers": headers,
-                "final_url": final_url
+                "url": data["urls"]["original"],
+                "file_type": data["urls"]["original"].split(".")[-1]
             }
-            yield item
+            if is_many:
+                item["folder_name"] = pic_name
+                img_p["title"] = f"p{index}"
+                index += 1
+            item["final_urls"].append(img_p)
+        yield item
 

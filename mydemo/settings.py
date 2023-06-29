@@ -66,7 +66,8 @@ DOWNLOAD_DELAY = 3
 ITEM_PIPELINES = {
     "mydemo.pipelines.DoubanItemPipeline": 300,
     "mydemo.pipelines.PixivPipeline": 400,
-    "mydemo.pipelines.PixivDownloadPipeline": 500
+    "mydemo.pipelines.PixivDownloadPipeline": 500,
+    "mydemo.pipelines.PixivImagePipeline": 600,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

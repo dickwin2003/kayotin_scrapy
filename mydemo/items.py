@@ -30,3 +30,5 @@ class PixivDownloadItem(scrapy.Item):
     is_many = scrapy.Field()
     headers = scrapy.Field()
     final_url = scrapy.Field()
+
+

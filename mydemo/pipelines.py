@@ -16,6 +16,9 @@ import openpyxl
 from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem
 import os
 import requests
+from scrapy import Request
+from scrapy.exceptions import DropItem
+from scrapy.pipelines.images import ImagesPipeline
 
 
 class DoubanItemPipeline:
@@ -72,3 +75,33 @@ class PixivDownloadPipeline:
             with open(f"{save_path}{file_name}", 'wb') as file:
                 file.write(resp.content)
         return item
+
+
+class PixivImagePipeline(ImagesPipeline):
+    root_path = os.path.abspath(os.path.dirname(__file__))
+
+    def get_media_requests(self, item: PixivDownloadItem, info):
+        for img in item["final_urls"]:
+            url = img["url"]
+            headers = item["headers"]
+            file_name = f"{img['title']}.{img['file_type']}"
+            if item["is_many"]:
+                save_path = f"{PixivImagePipeline.root_path}/output/{item['folder_name']}"
+            else:
+                save_path = f"{PixivImagePipeline.root_path}/output"
+            yield Request(url, headers=headers, meta={"file_name": file_name,
+                                                      "save_path": save_path
+                                                      })
+
+    def file_path(self, request, response=None, info=None, *, item=None):
+        """返回保存的完整路径，例如static/output/aaa.jpg"""
+        file_name = request.meta["file_name"]
+        save_path = request.meta["save_path"]
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        filename = f'{save_path}/{file_name}'  # 构建图片保存路径和名称
+        return filename
+
+    def item_completed(self, results, item, info):
+        # 处理下载完成的图片
+        pass

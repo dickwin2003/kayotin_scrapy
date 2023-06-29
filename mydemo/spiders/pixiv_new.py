@@ -12,10 +12,12 @@ from openpyxl.workbook.workbook import Workbook
 import os
 from mydemo.static.my_cookie import cookie, user_agent
 from scrapy import Request
+from mydemo.items import PixivDownloadItem
 
 
 class PixivNewSpider(scrapy.Spider):
     name = "pixiv_new"
+    item_class = PixivDownloadItem
     allowed_domains = ["pixiv.net"]
     url_list = list()
     custom_settings = {

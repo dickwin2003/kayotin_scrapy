@@ -15,6 +15,7 @@ from itemadapter import ItemAdapter
 import openpyxl
 from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem
 import os
+import requests
 
 
 class DoubanItemPipeline:
@@ -54,27 +55,18 @@ class PixivPipeline:
 
 
 class PixivDownloadPipeline:
-    images_folder = 'path/to/your/images/folder'
+    def __init__(self):
+        self.root_path = os.path.abspath(os.path.dirname(__file__))
 
-    def process_item(self, item, spider):
-        # 检查Item是否包含图片URL
-        if 'image_urls' in item and len(item['image_urls']) > 0:
-            for image_url in item['image_urls']:
-                # 生成下载请求，并指定回调函数
-                request = scrapy.Request(image_url, callback=self.handle_downloaded_image)
-                request.meta['item'] = item
-                spider.crawler.engine.schedule(request, spider)
+    def process_item(self, item: PixivDownloadItem, spider):
+        file_name = f"{item['title']}.{item['file_type']}"
+        if item["is_many"]:
+            save_path = f"{self.root_path}/output/{item['folder_name']}/"
         else:
-            raise DropItem("Item does not contain image URLs")
+            save_path = f"{self.root_path}/output/"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        resp = requests.get(item["final_url"], headers=item["headers"])
+        with open(f"{save_path}{file_name}", 'wb') as file:
+            file.write(resp.content)
         return item
-
-    def handle_downloaded_image(self, response):
-        # 在这里处理下载后的图片，例如保存到本地
-        item = response.meta['item']
-        image_path = os.path.join(self.images_folder, item['name'] + '.jpg')
-
-        with open(image_path, 'wb') as f:
-            f.write(response.body)
-
-        # 如果需要，可以将下载后的图片路径添加到Item中
-        item['image_path'] = image_path

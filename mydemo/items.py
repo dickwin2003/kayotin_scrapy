@@ -28,6 +28,7 @@ class PixivItem(scrapy.Item):
 class PixivDownloadItem(scrapy.Item):
     title = scrapy.Field()
     file_type = scrapy.Field()
-    data_code = scrapy.Field()
     folder_name = scrapy.Field()
     is_many = scrapy.Field()
+    headers = scrapy.Field()
+    final_url = scrapy.Field()

@@ -14,17 +14,25 @@ class PixivDownloadSpider(scrapy.Spider):
     name = "pixiv_download"
     allowed_domains = ["pixiv.net"]
     url_list = list()
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            # 如果有多条数据管道，需要在这里指定
+            'mydemo.pipelines.PixivDownloadPipeline': 500,
+        }
+    }
 
     def start_requests(self):
-        root_path = os.path.abspath(os.path.dirname(__file__))
-        workbook = openpyxl.load_workbook(f"{root_path}/output/pixiv_weekly_rank数据.xlsx")  # type: Workbook
+        """读取Excel链接，进行请求，得到ajax请求的地址"""
+        _path = os.path.abspath(os.path.dirname(__file__))
+        parent_dir = os.path.dirname(_path)
+        workbook = openpyxl.load_workbook(f"{parent_dir}/output/pixiv_weekly_rank数据.xlsx")  # type: Workbook
         worksheet = workbook["weekly"]  # type: Worksheet
 
         for row_num in range(2, worksheet.max_row + 1):
             url_obj = {
-                "pic_name": f"{worksheet[f'A{row_num}']}_{worksheet[f'B{row_num}']}",
-                "download_url": f"https://www.pixiv.net/ajax/illust/{worksheet[f'C{row_num}']}/pages?lang=zh",
-                "referer": worksheet[f"D{row_num}"]
+                "pic_name": f"{worksheet[f'A{row_num}'].value}_{worksheet[f'B{row_num}'].value}",
+                "download_url": f"https://www.pixiv.net/ajax/illust/{worksheet[f'C{row_num}'].value}/pages?lang=zh",
+                "referer": worksheet[f"D{row_num}"].value
             }
             PixivDownloadSpider.url_list.append(url_obj)
         workbook.close()
@@ -41,6 +49,7 @@ class PixivDownloadSpider(scrapy.Spider):
                           meta={"headers": header, "pic_name": url_obj["pic_name"]})
 
     def parse(self, response, **kwargs):
+        print("进入parse处理请求")
         datas = response.json()["body"]
         headers = response.meta["headers"]
         pic_name = response.meta["pic_name"]
@@ -55,21 +64,13 @@ class PixivDownloadSpider(scrapy.Spider):
             else:
                 folder_name = ""
             final_url = data["urls"]["original"]
-            next_arg = {
-                "pic_name": pic_name,
+            item = {
+                "title": pic_name,
+                "file_type": final_url.split(".")[-1],
                 "folder_name": folder_name,
                 "is_many": is_many,
-                "file_type": final_url.split(".")[-1]
+                "headers": headers,
+                "final_url": final_url
             }
-            yield Request(url=final_url, headers=headers,
-                          callback=self.parse_ajax, meta=next_arg)
+            yield item
 
-    def parse_ajax(self, response):
-        item = PixivDownloadItem()
-        image_info = response.meta
-        item["title"] = image_info["pic_name"]
-        item["file_type"] = image_info["file_type"]
-        item["data_code"] = response.content
-        item["folder_name"] = image_info["folder_name"]
-        item["is_many"] = image_info["is_many"]
-        yield item

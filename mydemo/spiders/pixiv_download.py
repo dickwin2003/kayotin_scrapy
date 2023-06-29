@@ -7,7 +7,6 @@ from openpyxl.workbook.workbook import Workbook
 import os
 from mydemo.static.my_cookie import cookie, user_agent
 from scrapy import Request
-from mydemo.items import PixivDownloadItem
 
 
 class PixivDownloadSpider(scrapy.Spider):
@@ -49,6 +48,7 @@ class PixivDownloadSpider(scrapy.Spider):
                           meta={"headers": header, "pic_name": url_obj["pic_name"]})
 
     def parse(self, response, **kwargs):
+        """将得到的下载链接和其他信息进行打包到item，让Pipeline进行处理"""
         datas = response.json()["body"]
         headers = response.meta["headers"]
         pic_name = response.meta["pic_name"]

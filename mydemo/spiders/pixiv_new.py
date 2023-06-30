@@ -17,7 +17,6 @@ from mydemo.items import PixivDownloadItem
 
 class PixivNewSpider(scrapy.Spider):
     name = "pixiv_new"
-    item_class = PixivDownloadItem
     allowed_domains = ["pixiv.net"]
     url_list = list()
     custom_settings = {
@@ -82,5 +81,5 @@ class PixivNewSpider(scrapy.Spider):
                 img_p["title"] = f"p{index}"
                 index += 1
             item["final_urls"].append(img_p)
-        yield item
+        yield PixivDownloadItem(item)
 

@@ -18,7 +18,7 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) " \
              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
 
 # 是否遵守爬虫协议
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # 并发请求数
 CONCURRENT_REQUESTS = 8

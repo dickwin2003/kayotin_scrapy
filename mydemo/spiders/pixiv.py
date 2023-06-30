@@ -1,5 +1,6 @@
 import scrapy
 from scrapy import Request
+from mydemo.items import PixivItem
 
 
 class PixivSpider(scrapy.Spider):
@@ -21,12 +22,15 @@ class PixivSpider(scrapy.Spider):
         在 parse 方法中，您可以编写代码来提取网页中的数据，并将其存储到数据仓库或者输出到文件中。"""
         datas = response.json()["contents"]
         for data in datas:
-            yield {
-                "title": data["title"],
-                "user_name": data["user_name"],
-                "p_id": data["illust_id"],
-                "re_url": f"https://www.pixiv.net/artworks/{data['illust_id']}"
-            }
+            item = PixivItem(
+                {
+                    "title": data["title"],
+                    "user_name": data["user_name"],
+                    "p_id": data["illust_id"],
+                    "re_url": f"https://www.pixiv.net/artworks/{data['illust_id']}"
+                }
+            )
+            yield item
 
 
 

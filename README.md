@@ -29,3 +29,13 @@ scrapy crawl pixiv_download
 2. 多p的图片保存至一个文件夹，如下所示
 
 ![pic_dic.png](mydemo%2Fstatic%2Fpic_dic.png)
+
+
+```python
+scrapy crawl pixiv_new
+```
+这个爬虫的作用和上一个相同，
+
+但是继承了ImagePipeline自定义了Pipeline来进行下载，效率会比较高。
+
+下载结束后，保存下载情况到Excel。

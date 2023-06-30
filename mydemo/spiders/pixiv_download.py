@@ -7,6 +7,7 @@ from openpyxl.workbook.workbook import Workbook
 import os
 from mydemo.static.my_cookie import cookie, user_agent
 from scrapy import Request
+from mydemo.items import PixivDownloadItem
 
 
 class PixivDownloadSpider(scrapy.Spider):
@@ -75,5 +76,5 @@ class PixivDownloadSpider(scrapy.Spider):
                 img_p["title"] = f"p{index}"
                 index += 1
             item["final_urls"].append(img_p)
-        yield item
+        yield PixivDownloadItem(item)
 

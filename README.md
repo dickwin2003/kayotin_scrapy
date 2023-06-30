@@ -38,4 +38,4 @@ scrapy crawl pixiv_new
 
 但是继承了ImagePipeline自定义了Pipeline来进行下载，效率会比较高。
 
-下载结束后，保存下载情况到Excel。
+下载结束后，保存下载情况到Excel。。

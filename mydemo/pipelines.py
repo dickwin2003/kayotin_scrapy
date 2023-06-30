@@ -82,12 +82,10 @@ class PixivImagePipeline(ImagesPipeline):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs )
-        self.workbook = None
-        self.worksheet = None
-
-    def open_spider(self, spider):
         self.workbook = openpyxl.Workbook()
         self.worksheet = self.workbook.active
+
+    # def open_spider(self, spider):
 
     def get_media_requests(self, item: PixivDownloadItem, info):
         for img in item["final_urls"]:
@@ -114,11 +112,16 @@ class PixivImagePipeline(ImagesPipeline):
     def item_completed(self, results, item, info):
         # 处理下载完成的图片
         for ok, result in results:
-            if not ok:
-                row = []
-                for key in item:
-                    row.append(item[key])
-                    row.append(result)
-                self.worksheet.append(row)
+            row = []
+            # for key in item:
+            #     row.append(item[key])
+            for key in result:
+                row.append(result[key])
+            self.worksheet.append(row)
         return item
+
+    def close_spider(self, spider):
+        # 获取根目录路径
+        root_path = os.path.abspath(os.path.dirname(__file__))
+        self.workbook.save(f'{root_path}/output/pixiv_weekly_下载情况.xlsx')
 

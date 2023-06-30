@@ -83,11 +83,9 @@ class PixivImagePipeline(ImagesPipeline):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs )
         self.workbook = openpyxl.Workbook()
-        self.ws_success = self.workbook.active
-        self.ws_success.title = "成功记录"
-        self.ws_success.append(('文件夹', '文件名', '下载状态', '下载链接'))
-        self.ws_fail = self.workbook.create_sheet("失败记录")
-        self.ws_fail.append(('文件夹', '文件名', '下载状态', '下载链接'))
+        self.worksheet = self.workbook.active
+        self.worksheet.title = "下载结果"
+        self.worksheet.append(('文件夹', '文件名', '下载状态', '下载链接'))
 
     # def open_spider(self, spider):
 
@@ -120,16 +118,13 @@ class PixivImagePipeline(ImagesPipeline):
         for is_ok, result in results:
             # results是一个元组，(下载是否成功，dic）
             if is_ok:
-                row = []
-                for img in item["final_urls"]:
-                    if result["url"] == img["url"]:
-                        row = [item["folder_name"], img["title"], "下载成功", result["url"]]
-                self.ws_success.append(row)
+                _status = "下载成功"
             else:
-                for img in item["final_urls"]:
-                    fail_row = [item["folder_name"], img["title"], "下载失败", img["url"]]
-                    self.ws_fail.append(fail_row)
+                _status = "下载失败"
                 raise DropItem('Image Downloaded Failed')
+            for img in item["final_urls"]:
+                row = [item["folder_name"], img["title"], _status, result["url"]]
+                self.worksheet.append(row)
         return item
 
     def close_spider(self, spider):

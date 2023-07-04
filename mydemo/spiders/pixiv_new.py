@@ -21,7 +21,7 @@ class PixivNewSpider(scrapy.Spider):
     url_list = list()
     custom_settings = {
         'ITEM_PIPELINES': {
-            # 如果有多条数据管道，需要在这里指定
+            # 指定了新的Pipeline
             'mydemo.pipelines.PixivImagePipeline': 600,
         }
     }

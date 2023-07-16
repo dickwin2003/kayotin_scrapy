@@ -1,0 +1,6 @@
+
+下一步准备做个二手房房价的爬虫：
+https://bj.ke.com/ershoufang/xisi1/
+https://sh.ke.com/ershoufang/pudong/
+
+保存到mysql数据库

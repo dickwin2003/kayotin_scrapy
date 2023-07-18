@@ -7,8 +7,6 @@ Date 2023/7/18
 
 import scrapy
 from scrapy import Selector, Request
-from scrapy.http import HtmlResponse
-import os
 import re
 from bs4 import BeautifulSoup
 import json

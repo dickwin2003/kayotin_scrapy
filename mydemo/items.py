@@ -32,3 +32,14 @@ class PixivDownloadItem(scrapy.Item):
     final_urls = scrapy.Field()
 
 
+class HouseItem(scrapy.Item):
+    house_city = scrapy.Field()
+    house_area = scrapy.Field()
+    house_street = scrapy.Field()
+    house_community = scrapy.Field()
+    house_info = scrapy.Field()
+    house_total = scrapy.Field()
+    house_unit = scrapy.Field()
+
+
+

@@ -18,15 +18,15 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) " \
              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
 
 # 是否遵守爬虫协议
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # 并发请求数
-CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 48
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# 下载延迟
-DOWNLOAD_DELAY = 1
+# 下载延迟，每个请求之间的延迟
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -64,6 +64,7 @@ DOWNLOAD_DELAY = 1
 # 配置数据管道
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+    "mydemo.pipelines.ShellItemPipeline": 200,
     "mydemo.pipelines.DoubanItemPipeline": 300,
     "mydemo.pipelines.PixivPipeline": 400,
     "mydemo.pipelines.PixivDownloadPipeline": 500,
@@ -72,7 +73,10 @@ ITEM_PIPELINES = {
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+
+# 根据网站的响应速度自动限速
+# AUTOTHROTTLE_ENABLED = True
+
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
@@ -95,3 +99,10 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# 日志设置
+LOG_ENABLED = True
+# DEBUG INFO WARNING ERROR CRITICAL
+LOG_LEVEL = 'INFO'
+# 日志文件保存位置
+LOG_FILE = 'mydemo/logs/shell_log.txt'

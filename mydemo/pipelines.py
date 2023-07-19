@@ -2,7 +2,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
+import datetime
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
@@ -13,7 +13,7 @@ from itemadapter import ItemAdapter
 #         return item
 
 import openpyxl
-from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem
+from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem, HouseItem
 import os
 import requests
 from scrapy import Request
@@ -131,4 +131,31 @@ class PixivImagePipeline(ImagesPipeline):
         # 获取根目录路径
         root_path = os.path.abspath(os.path.dirname(__file__))
         self.workbook.save(f'{root_path}/output/pixiv_weekly_下载情况.xlsx')
+
+
+class ShellItemPipeline:
+    root_path = os.path.abspath(os.path.dirname(__file__))
+
+    def __init__(self):
+        self.wb = openpyxl.Workbook()
+        self.sheet = self.wb.active
+        self.sheet.title = '房价数据'
+        self.sheet.append(('城市', '区', '街道', '小区', '房屋信息', '总价', '单价'))
+
+    def process_item(self, item: HouseItem, spider):
+        self.sheet.append((item['house_city'], item['house_area'], item['house_street'],
+                           item['house_community'], item['house_info'], item['house_total'],
+                           item['house_unit']))
+        return item
+
+    def close_spider(self, spider):
+        # 获取根目录路径
+        date_string = datetime.datetime.today().strftime('%Y-%m-%d')
+        save_path = f"{self.root_path}/output/{date_string}"
+        city = spider.city_cn
+        file_name = f"{city}_{date_string}.xlsx"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        self.wb.save(f'{save_path}/{file_name}')
+
 

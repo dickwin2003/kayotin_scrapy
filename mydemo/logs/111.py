@@ -22,3 +22,8 @@ item.attrib['href']
 
 
 item.xpath('string()').get()
+
+pages = bs_html.find_all("div", {
+    "class": "page-box house-lst-page-box",
+    "comp-module": "page"
+})

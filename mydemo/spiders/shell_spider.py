@@ -103,6 +103,7 @@ class ShellSpider(scrapy.Spider):
             yield Request(url, callback=self.parse_house, meta=meta, dont_filter=True)
 
     def parse_house(self, response):
+        """从每个街道的链接，得到了每个街道有多少页，根据页码生成链接，给下一个parse处理"""
         # bs_html = BeautifulSoup(response.text, "html.parser")
         # pages = bs_html.find_all("div", {
         #     "class": "page-box house-lst-page-box",

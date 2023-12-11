@@ -42,4 +42,16 @@ class HouseItem(scrapy.Item):
     house_unit = scrapy.Field()
 
 
+class BiliItem(scrapy.Item):
+    bili_title = scrapy.Field()
+    bili_author = scrapy.Field()
+    bili_clicks = scrapy.Field()
+    bili_comments = scrapy.Field()
+    bili_uptime = scrapy.Field()
+    bili_likes = scrapy.Field()
+    bili_favorites = scrapy.Field()
+    bili_coins = scrapy.Field()
+    bili_shares = scrapy.Field()
+
+
 

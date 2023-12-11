@@ -13,7 +13,7 @@ from itemadapter import ItemAdapter
 #         return item
 
 import openpyxl
-from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem, HouseItem
+from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem, HouseItem, BiliItem
 import os
 import requests
 from scrapy import Request
@@ -158,4 +158,22 @@ class ShellItemPipeline:
             os.makedirs(save_path)
         self.wb.save(f'{save_path}/{file_name}')
 
+
+class BiliItemPipeline:
+    def __init__(self):
+        self.wb = openpyxl.Workbook()
+        self.sheet = self.wb.active
+        self.sheet.title = 'bilibili'
+        self.sheet.append(('视频标题', 'up主', '点击量', '评论数', '发布时间', '点赞', '收藏', '投币', '转发'))
+
+    def process_item(self, item: BiliItem, spider):
+        self.sheet.append((item["bili_title"], item['bili_author'], item['bili_clicks'],
+                           item["bili_comments"], item["bili_uptime"], item["bili_likes"],
+                           item["bili_favorites"], item["bili_coins"], item["bili_shares"]))
+        return item
+
+    def close_spider(self, spider):
+        # 获取根目录路径
+        root_path = os.path.abspath(os.path.dirname(__file__))
+        self.wb.save(f'{root_path}/output/bilibili_data.xlsx')
 

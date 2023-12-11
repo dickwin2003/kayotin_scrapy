@@ -69,13 +69,14 @@ ITEM_PIPELINES = {
     "mydemo.pipelines.PixivPipeline": 400,
     "mydemo.pipelines.PixivDownloadPipeline": 500,
     "mydemo.pipelines.PixivImagePipeline": 600,
+    "mydemo.pipelines.BiliItemPipeline": 700,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 
 # 根据网站的响应速度自动限速
-# AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5

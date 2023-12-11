@@ -1,4 +1,4 @@
-# mydemo
+# kayotin_scrapy
 一个练手的scrapy框架爬虫项目
 
 

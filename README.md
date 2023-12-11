@@ -4,13 +4,15 @@
 
 ## 目前包含以下爬虫
 | name | 简介 |
-|  | --- |
+|---| --- |
 | douban | 爬取豆瓣电影 Top250 电影标题、评分和金句，保存至Excel文件 |
 | pixiv | 爬取Pixiv 周榜 250 标题、作者和PID和链接，保存至Excel文件 |
 | pixiv_download | 下载上一个爬虫中的图片 |
 | pixiv_new | 同样是下载图片，区别是使用自定义ImagePipeline |
 | shell_spider | 爬取贝壳网的二手房数据 |
 | bilibili | 爬取阿b视频数据 |
+
+
 
 ## 各Spider简介
 

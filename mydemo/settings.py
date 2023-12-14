@@ -27,6 +27,9 @@ CONCURRENT_REQUESTS = 48
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # 下载延迟，每个请求之间的延迟
 DOWNLOAD_DELAY = 0
+
+# 下载默认等待时间,默认值是180
+# DOWNLOAD_TIMEOUT = 180
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16

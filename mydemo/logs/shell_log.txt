@@ -2490,3 +2490,7 @@
  'scheduler/enqueued/memory': 1001,
  'start_time': datetime.datetime(2023, 12, 11, 8, 21, 38, 84519)}
 2023-12-11 16:21:39 [scrapy.core.engine] INFO: Spider closed (finished)
+2023-12-13 19:36:19 [scrapy.utils.log] INFO: Scrapy 2.9.0 started (bot: mydemo)
+2023-12-13 19:36:19 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.12, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.1, Twisted 22.10.0, Python 3.10.10 (tags/v3.10.10:aad5f6a, Feb  7 2023, 17:20:36) [MSC v.1929 64 bit (AMD64)], pyOpenSSL 23.2.0 (OpenSSL 3.1.1 30 May 2023), cryptography 41.0.1, Platform Windows-10-10.0.19045-SP0
+2023-12-13 19:38:46 [scrapy.utils.log] INFO: Scrapy 2.9.0 started (bot: mydemo)
+2023-12-13 19:38:46 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.12, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.1, Twisted 22.10.0, Python 3.10.10 (tags/v3.10.10:aad5f6a, Feb  7 2023, 17:20:36) [MSC v.1929 64 bit (AMD64)], pyOpenSSL 23.2.0 (OpenSSL 3.1.1 30 May 2023), cryptography 41.0.1, Platform Windows-10-10.0.19045-SP0

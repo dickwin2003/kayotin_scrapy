@@ -17,6 +17,7 @@ import requests
 from http import cookiejar
 import json
 from mydemo.static.my_cookie import net_cookie, user_agent
+import re
 
 
 class NetSpider(scrapy.Spider):
@@ -25,29 +26,36 @@ class NetSpider(scrapy.Spider):
     url_list = list()
     custom_settings = {
         'ITEM_PIPELINES': {
-            'mydemo.pipelines.NetPipeline': 800,
+            'mydemo.pipelines.NetItemPipeline': 800,
         }
     }
 
     def start_requests(self):
-        pass
-        # list_url = "https://music.163.com/#/my/m/music/playlist?id=478735988"
-        # header = {
-        #     'User-Agent': user_agent,
-        #     'Cookie': net_cookie,
-        # }
-        # res = Request(url=list_url, headers=header)
+        list_url = "https://music.163.com/my/m/music/playlist?id=478735988"
+        header = {
+            'User-Agent': user_agent,
+            'Cookie': net_cookie,
+        }
+        yield Request(url=list_url, headers=header)
+
+    def parse(self, response, **kwargs):
+        # 匹配歌曲名的正则表达式
+        patt = re.compile(r'<a href="/song.id=.*?">([^<|{]*?)</a>')
+
+        # 找到所有歌曲名
+        listdata = re.findall(patt, response.text)
+        for item in listdata:
+            print(item)
 
 
 if __name__ == '__main__':
-    list_url = "https://music.163.com/#/my/m/music/playlist?id=478735988"
+    list_url = "https://music.163.com/my/m/music/playlist?id=478735988"
     header = {
         'User-Agent': user_agent,
         'Cookie': net_cookie,
     }
-    res = Request(list_url, headers=header)
-    print(res)
-    # sel = Selector(res.)
-    # print(sel.css("span.txt")[0].css("a::attr(href)").get())
-    # print(sel.css("span.txt")[0].css("b::attr(title)").get())
+    res = requests.get(list_url, headers=header)
+    sel = Selector(res)
+    print(sel.css("span.txt")[0].css("a::attr(href)").get())
+    print(sel.css("span.txt")[0].css("b::attr(title)").get())
 

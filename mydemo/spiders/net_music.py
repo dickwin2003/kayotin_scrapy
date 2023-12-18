@@ -18,6 +18,7 @@ from http import cookiejar
 import json
 from mydemo.static.my_cookie import net_cookie, user_agent
 import re
+from bs4 import BeautifulSoup
 
 
 class NetSpider(scrapy.Spider):
@@ -49,13 +50,21 @@ class NetSpider(scrapy.Spider):
 
 
 if __name__ == '__main__':
-    list_url = "https://music.163.com/my/m/music/playlist?id=478735988"
+    list_url = "https://music.163.com/#/my/m/music/playlist?id=478735988"
     header = {
         'User-Agent': user_agent,
         'Cookie': net_cookie,
+        'Host': 'music.163.com',
+        'Referer': 'https://music.163.com/'
     }
-    res = requests.get(list_url, headers=header)
-    sel = Selector(res)
-    print(sel.css("span.txt")[0].css("a::attr(href)").get())
-    print(sel.css("span.txt")[0].css("b::attr(title)").get())
+    r = requests.session()
+    r = BeautifulSoup(r.get(list_url, headers=header).content, "html.parser")
+    result = r.find('ul', {'class': 'f-hide'}).find_all('a')
+    print(len(result))
+    for music in result:
+        print(music.text)
+    # res = requests.get(list_url, headers=header)
+    # sel = Selector(res)
+    # print(sel.css("ul.f-hide").css("::text"))
+    # # print(sel.css("span.txt")[0].css("b::attr(title)").get())
 

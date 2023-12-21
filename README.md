@@ -10,8 +10,8 @@
 | pixiv_download | 下载上一个爬虫中的图片                            |
 | pixiv_new      | 同样是下载图片，区别是使用自定义ImagePipeline          |
 | shell_spider   | 爬取贝壳网的二手房数据                            |
-| bilibili       | 爬取阿b视频数据                               |
-| qq_music       | 爬取qq音乐评论（施工中                           |
+| bili_spider    | 爬取阿b视频数据                               |
+| net_spider     | 爬取网易云指定歌单歌曲信息                          |
 
 
 
@@ -71,3 +71,14 @@ scrapy crawl bili_spider
 
 但是可能会被阿b检测到然后禁ip
 谨慎使用
+
+## net_spider
+```python
+scrapy crawl net_spider
+```
+
+爬取指定歌单id的所有歌曲信息，
+
+目前是我的歌单，如果要爬取其他歌单，修改如下id即可
+
+play_list_id = "478849060"

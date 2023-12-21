@@ -23,7 +23,6 @@ play_list_id = "478849060"
 class NetSpider(scrapy.Spider):
     name = "net_spider"
     allowed_domains = ["www.163.com"]
-    url_list = list()
     custom_settings = {
         'ITEM_PIPELINES': {
             'mydemo.pipelines.NetItemPipeline': 800,

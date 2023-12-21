@@ -49,10 +49,11 @@ class NetSpider(scrapy.Spider):
 
         for sp in spans:
             title = sp.css("::text").get()
-            print(title)
+            # print(title)
             url = sp.css("::attr(href)").get()
-            print(url)
+            # print(url)
             song_url = f"https://music.163.com{url}"
+            # 注意，此处的dont_filter参数，如果不设置爬虫到这里就会自动结束了
             yield Request(url=song_url, headers=self.header, callback=self.parse_song, meta={'song_name': title},
                           dont_filter=True)
 

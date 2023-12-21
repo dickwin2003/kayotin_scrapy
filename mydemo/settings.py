@@ -105,9 +105,9 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
-# 日志设置
-LOG_ENABLED = True
-# DEBUG INFO WARNING ERROR CRITICAL
-LOG_LEVEL = 'INFO'
-# 日志文件保存位置
-LOG_FILE = 'mydemo/logs/shell_log.txt'
+# # 日志设置
+# LOG_ENABLED = True
+# # DEBUG INFO WARNING ERROR CRITICAL
+# LOG_LEVEL = 'INFO'
+# # 日志文件保存位置
+# LOG_FILE = 'mydemo/logs/shell_log.txt'

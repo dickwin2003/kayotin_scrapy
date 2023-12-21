@@ -183,11 +183,10 @@ class NetItemPipeline:
         self.wb = openpyxl.Workbook()
         self.sheet = self.wb.active
         self.sheet.title = '网易云'
-        self.sheet.append(('歌曲名', '歌手名', '用户名', '评论内容', '评论日期'))
+        self.sheet.append(('歌曲名', '歌手名', '专辑名', '歌曲url'))
 
     def process_item(self, item: NetItem, spider):
-        self.sheet.append((item["song_name"], item['singer_name'], item['user_name'],
-                           item["comment_text"], item["comment_date"]))
+        self.sheet.append((item["song_name"], item['singer_name'], item['cd_name'], item["song_url"]))
         return item
 
     def close_spider(self, spider):

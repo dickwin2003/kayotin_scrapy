@@ -57,7 +57,6 @@ class BiliItem(scrapy.Item):
 class NetItem(scrapy.Item):
     song_name = scrapy.Field()
     singer_name = scrapy.Field()
-    user_name = scrapy.Field()
-    comment_text = scrapy.Field()
-    comment_date = scrapy.Field()
+    cd_name = scrapy.Field()
+    song_url = scrapy.Field()
 

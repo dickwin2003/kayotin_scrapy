@@ -80,6 +80,8 @@ scrapy crawl net_spider
 
 爬取指定歌单id的所有歌曲信息，
 
+由于歌单是需要登录才能访问的，目前需要在static/my_cookie.py中指定cookie值，
+
 目前是我的歌单，如果要爬取其他歌单，修改如下id即可
 
 play_list_id = "478849060"

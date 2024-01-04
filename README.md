@@ -12,6 +12,7 @@
 | shell_spider   | 爬取贝壳网的二手房数据                            |
 | bili_spider    | 爬取阿b视频数据                               |
 | net_spider     | 爬取网易云指定歌单歌曲信息                          |
+| net_lyric      | 爬取net_spider爬取到的歌单中的歌曲热评               |
 
 
 
@@ -82,3 +83,14 @@ scrapy crawl net_spider
 目前是我的歌单，如果要爬取其他歌单，修改如下id即可
 
 play_list_id = "478849060"
+
+## net_lyric
+```python
+scrapy crawl net_lyric
+```
+
+爬取上一个歌单中的所有歌曲的热门评论，
+
+因为是从excle文件读取的，所以运行前请确保上一个爬虫生成的excle文件存在
+
+结果同样保存在excle中

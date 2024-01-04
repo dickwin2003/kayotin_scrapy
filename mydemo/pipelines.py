@@ -13,7 +13,7 @@ from itemadapter import ItemAdapter
 #         return item
 
 import openpyxl
-from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem, HouseItem, BiliItem, NetItem
+from mydemo.items import DoubanItem, PixivItem, PixivDownloadItem, HouseItem, BiliItem, NetItem, NetWordItem
 import os
 import requests
 from scrapy import Request
@@ -193,3 +193,20 @@ class NetItemPipeline:
         # 获取根目录路径
         root_path = os.path.abspath(os.path.dirname(__file__))
         self.wb.save(f'{root_path}/output/net_music_data.xlsx')
+
+
+class NetWordItemPipeline:
+    def __init__(self):
+        self.wb = openpyxl.Workbook()
+        self.sheet = self.wb.active
+        self.sheet.title = '网易云热评'
+        self.sheet.append(('歌曲名', '用户nickname', '评论内容', '评论时间', '点赞数'))
+
+    def process_item(self, item: NetWordItem, spider):
+        self.sheet.append((item["song_name"], item['user_name'], item['content'], item["comment_date"],
+                           item["liked_count"]))
+        return item
+
+    def close_spider(self, spider):
+        root_path = os.path.abspath(os.path.dirname(__file__))
+        self.wb.save(f'{root_path}/output/net_hotComments.xlsx')

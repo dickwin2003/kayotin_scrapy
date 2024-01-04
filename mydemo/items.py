@@ -60,3 +60,10 @@ class NetItem(scrapy.Item):
     cd_name = scrapy.Field()
     song_url = scrapy.Field()
 
+
+class NetWordItem(scrapy.Item):
+    song_name = scrapy.Field()
+    user_name = scrapy.Field()
+    content = scrapy.Field()
+    comment_date = scrapy.Field()
+    liked_count = scrapy.Field()

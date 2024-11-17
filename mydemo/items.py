@@ -17,6 +17,11 @@ class DoubanItem(scrapy.Item):
     score = scrapy.Field()
     motto = scrapy.Field()
 
+class HuxiuItem(scrapy.Item):
+    title = scrapy.Field()    # 标题
+    link = scrapy.Field()     # 链接
+    desc = scrapy.Field()     # 简述
+    posttime = scrapy.Field() # 发布时间
 
 class PixivItem(scrapy.Item):
     title = scrapy.Field()

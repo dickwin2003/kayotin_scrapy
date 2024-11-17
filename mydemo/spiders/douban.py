@@ -16,15 +16,18 @@ class DoubanSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for page in range(10):
-            yield Request(url=f'https://movie.douban.com/top250?start={page * 25}')
+        for page in range(3):
+            yield Request(url=f'https://cm.k366.com/qian/lqhdx_1.htm')
 
     def parse(self, response: HtmlResponse, **kwargs):
         sel = Selector(response)
         movie_items = sel.css('#content > div > div.article > ol > li')
         for movie_sel in movie_items:
             item = DoubanItem()
-            item['title'] = movie_sel.css('.title::text').extract_first()
-            item['score'] = movie_sel.css('.rating_num::text').extract_first()
-            item['motto'] = movie_sel.css('.inq::text').extract_first()
+            item['title'] = movie_sel.css('.tab_contet_dx::text').extract_first()
+            #item['score'] = movie_sel.css('.rating_num::text').extract_first()
+            #item['motto'] = movie_sel.css('.inq::text').extract_first()
             yield item
+
+if __name__ == '__main__':
+    pass

@@ -1,6 +1,7 @@
 # kayotin_scrapy
 一个练手的scrapy框架爬虫项目
-
+--在源代码上增加了一个采集任务 可看日期
+huxiu_spider.py
 
 ## 目前包含以下爬虫
 | name           | 简介                                     |

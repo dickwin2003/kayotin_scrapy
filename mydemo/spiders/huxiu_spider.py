@@ -10,7 +10,7 @@ from mydemo.items import HuxiuItem
 class HuxiuSpider(scrapy.Spider):
     name = "huxiu"
     allowed_domains = ["k366.com"]
-    start_urls = [f"https://cm.k366.com/qian/lqhdx_{i}.htm" for i in range(1, 101)]
+    start_urls = [f"https://cm.k366.com/qian/lqhdx_{i}.htm" for i in range(1, 4)]
     sql_statements = []  # To store all SQL statements
 
     def parse(self, response):
